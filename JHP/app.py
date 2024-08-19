@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, send_from_directory
-from app.query import queryOpenAI
+from application.query import queryOpenAI
 import os
 
 app = Flask(__name__, static_folder='frontend/build')
