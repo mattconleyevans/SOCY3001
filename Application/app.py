@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_from_directory
+from app import create_app
 from app.query import queryOpenAI
 import os
 
