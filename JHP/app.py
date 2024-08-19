@@ -18,7 +18,9 @@ def read_lines(file_path):
             yield line.strip()
 
 text_documents = read_lines(os.path.join(os.path.dirname(__file__), 'application/data/texts.txt'))
-image_documents = read_lines(os.path.join(os.path.dirname(__file__), 'application/data/images.txt'))
+# image_documents = read_lines(os.path.join(os.path.dirname(__file__), 'application/data/images.txt'))
+with open(os.path.join(os.path.dirname(__file__), 'application/data/images.txt'), 'r') as file:
+    image_documents = [line.strip() for i, line in enumerate(file) if 500 <= i < 1000]
 
 # Route to handle the API call from the React app
 @app.route('/api/query', methods=['POST'])
