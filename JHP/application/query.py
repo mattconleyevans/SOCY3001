@@ -28,7 +28,7 @@ def retrieve_relevant_documents(query_embedding, index, top_k=5):
     distances, indices = index.search(query_embedding, top_k)
     return indices[0]
 
-def queryOpenAI(query_text, image_index, text_index, text_documents, image_documents):
+def queryOpenAI(query_text, image_index, text_index):
     load_dotenv()
     openai_api_key = os.getenv('OPENAI_API_KEY')
     client = OpenAI(api_key=openai_api_key)

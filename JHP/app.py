@@ -28,7 +28,7 @@ def query():
     query_text = data.get('query_text')
 
     # Run the queryOpenAI function
-    response = queryOpenAI(query_text, image_index, text_index, text_documents, image_documents)
+    response = queryOpenAI(query_text, image_index, text_index)
 
     return jsonify({"message": response["message"].choices[0].message.content,
                     "images": response["images"]})
