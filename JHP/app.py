@@ -8,15 +8,17 @@ from dotenv import load_dotenv
 app = Flask(__name__, static_folder='frontend/build')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-# Load FAISS indices and documents once when the app starts
+# Assuming faiss supports memory mapping or similar functionality
 text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
 image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
 
-with open(os.path.join(os.path.dirname(__file__), 'application/data/texts.txt'), 'r') as text_file:
-    text_documents = [line.strip() for line in text_file]
+def read_lines(file_path):
+    with open(file_path, 'r') as file:
+        for line in file:
+            yield line.strip()
 
-with open(os.path.join(os.path.dirname(__file__), 'application/data/images.txt'), 'r') as image_file:
-    image_documents = [line.strip() for line in image_file]
+text_documents = read_lines(os.path.join(os.path.dirname(__file__), 'application/data/texts.txt'))
+image_documents = read_lines(os.path.join(os.path.dirname(__file__), 'application/data/images.txt'))
 
 # Route to handle the API call from the React app
 @app.route('/api/query', methods=['POST'])
