@@ -15,7 +15,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5001/api/query', {
+      const res = await fetch("https://socy3001.onrender.com/api/query", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

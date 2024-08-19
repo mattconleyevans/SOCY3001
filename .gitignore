@@ -4,5 +4,5 @@
 /Project/Data/
 __pycache__/
 *.pyc
-/.idea/
-/JHP/..
+.idea/
+JHP/..
