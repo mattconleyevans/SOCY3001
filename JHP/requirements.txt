@@ -7,3 +7,6 @@ openai==1.41.0
 Pillow==10.4.0
 torch==2.4.0
 python-dotenv
+MarkupSafe==2.1.1
+Werkzeug==2.2.3
+
