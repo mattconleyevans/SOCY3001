@@ -41,7 +41,7 @@ def queryOpenAI(query_text, image_index, text_index, text_documents, image_docum
     top_image = base64.b64decode(relevant_images[0])
     image = Image.open(BytesIO(top_image))
 
-    response = client.chat.completions.create(
+    openai_response = client.chat.completions.create(
             model = "gpt-4o-mini",
             messages=[
                 {
@@ -66,5 +66,10 @@ def queryOpenAI(query_text, image_index, text_index, text_documents, image_docum
                 }
               ],
         )
+
+    response = {
+        "message": openai_response,
+        "images": [relevant_images[0], relevant_images[1], relevant_images[2]]  # Add images to the response
+    }
 
     return response

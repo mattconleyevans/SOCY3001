@@ -26,7 +26,8 @@ def query():
     # Run the queryOpenAI function
     response = queryOpenAI(query_text, image_index, text_index, text_documents, image_documents)
 
-    return jsonify({"response": response.choices[0].message.content})
+    return jsonify({"message": response["message"].choices[0].message.content,
+                    "images": response["images"]})
 
 # Serve the React app
 @app.route('/')
@@ -41,4 +42,4 @@ def serve(path):
         return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5001)))
