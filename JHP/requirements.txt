@@ -6,4 +6,4 @@ numpy
 openai
 Pillow
 torch
-dotenv
+python-dotenv
