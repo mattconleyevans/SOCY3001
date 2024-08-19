@@ -1,5 +1,5 @@
 git+https://github.com/openai/CLIP.git
-faiss-cpu
+faiss-cpu==1.8.0
 Flask
 Flask_Cors
 numpy
