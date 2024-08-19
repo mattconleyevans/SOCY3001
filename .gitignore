@@ -6,3 +6,16 @@ __pycache__/
 *.pyc
 .idea/
 JHP/..
+*.pyc
+*.pyo
+*.pyd
+env/
+.env/
+.mypy_cache/
+.pytest_cache/
+*.log
+npm-debug.log*
+yarn-error.log*
+*.tmp
+*.temp
+*.swp
