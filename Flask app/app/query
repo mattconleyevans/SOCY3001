@@ -1,6 +1,3 @@
-# In[16]:
-
-
 import openai
 import clip
 import faiss
@@ -10,24 +7,7 @@ from openai import OpenAI
 import base64
 from PIL import Image
 from io import BytesIO
-
-def get_query_text_embedding(text):
-    response = openai.embeddings.create(input=text, model="text-embedding-3-small")
-    return response.data[0].embedding
-
-def get_query_image_embedding(text):
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    model, _ = clip.load("ViT-B/32", device=device)
-    text_preprocessed = clip.tokenize([text]).to(device)
-    with torch.no_grad():
-        text_features = model.encode_text(text_preprocessed)
-    return text_features.cpu().numpy().tolist()[0]
-
-# Function to retrieve most relevant documents from a FAISS index
-def retrieve_relevant_documents(query_embedding, index, top_k=5):
-    query_embedding = np.array([query_embedding], dtype=np.float32)
-    distances, indices = index.search(query_embedding, top_k)
-    return indices[0]
+from .data import get_query_text_embedding
 
 def queryOpenAI(query_text, image_index, text_index):
     query_text_embedding = get_query_text_embedding(query_text)
@@ -70,22 +50,3 @@ def queryOpenAI(query_text, image_index, text_index):
         )
 
     return response
-
-client = OpenAI()
-
-with open("Data/texts.txt", "r") as text_file:
-    loaded_texts = text_file.readlines()
-
-# Load base64-encoded images
-with open("Data/images.txt", "r") as images_file:
-    loaded_images_b64 = images_file.readlines()
-
-text_documents = [text.strip() for text in loaded_texts]
-image_documents = [image.strip() for image in loaded_images_b64]
-
-text_index = faiss.read_index("textArchive.index")
-image_index = faiss.read_index("imageArchive.index")
-
-query = "Query here"
-queryOpenAI(query, image_index, text_index).choices[0].message.content
-

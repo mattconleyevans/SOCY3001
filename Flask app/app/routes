@@ -1,0 +1,12 @@
+from flask import Blueprint, request, jsonify
+from .openai_query import query_openai
+from .data_cleaning import clean_data
+
+main = Blueprint('main', __name__)
+
+@main.route('/query', methods=['POST'])
+def query():
+    data = request.json
+    cleaned_data = clean_data(data)
+    response = query_openai(cleaned_data)
+    return jsonify({"response": response})
