@@ -1,27 +1,44 @@
-from flask import Flask, request, jsonify, send_from_directory, render_template
+from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 from application.query import queryOpenAI
 import os
+import faiss
 
 app = Flask(__name__, static_folder='frontend/build')
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-@app.route('/', methods=['GET', 'POST'])
+# Load FAISS indices and documents once when the app starts
+text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
+image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
+
+with open(os.path.join(os.path.dirname(__file__), 'application/data/texts.txt'), 'r') as text_file:
+    text_documents = [line.strip() for line in text_file]
+
+with open(os.path.join(os.path.dirname(__file__), 'application/data/images.txt'), 'r') as image_file:
+    image_documents = [line.strip() for line in image_file]
+
+# Route to handle the API call from the React app
+@app.route('/api/query', methods=['POST'])
 def query():
-    if request.method == 'POST':
-        query_text = request.form.get('query_text')
+    data = request.json  # Read JSON data from the request
+    query_text = data.get('query_text')
 
-        # Access the indices and documents from the app context
-        text_index = current_app.text_index
-        image_index = current_app.image_index
-        text_documents = current_app.text_documents
-        image_documents = current_app.image_documents
+    # Run the queryOpenAI function
+    response = queryOpenAI(query_text, image_index, text_index, text_documents, image_documents)
 
-        # Run the queryOpenAI function
-        response = queryOpenAI(query_text, image_index, text_index, text_documents, image_documents)
+    return jsonify({"response": response.choices[0].message.content})
 
-        return jsonify({"response": response.choices[0].message.content})
+# Serve the React app
+@app.route('/')
+def home():
+    return "Home"
 
-    # Render the HTML form on GET request
-    return render_template('application/templates/index.html')
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5001, debug=True)

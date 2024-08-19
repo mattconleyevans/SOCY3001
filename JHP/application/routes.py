@@ -1,7 +1,7 @@
-from flask import Blueprint, current_app, jsonify
-
-main = Blueprint('main', __name__)
-
+# from flask import Blueprint, current_app, jsonify, g
+#
+# main = Blueprint('main', __name__)
+#
 # @main.route('/query', methods=['POST'])
 # def query():
 #     # Access the FAISS indexes and text data
@@ -20,7 +20,3 @@ main = Blueprint('main', __name__)
 #     }
 #
 #     return jsonify(data_summary)
-
-@main.route('/')
-def index():
-    return "Hello, World!"
