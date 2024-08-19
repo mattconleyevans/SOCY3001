@@ -3,6 +3,7 @@ from flask_cors import CORS
 from application.query import queryOpenAI
 import os
 import faiss
+from dotenv import load_dotenv
 
 app = Flask(__name__, static_folder='frontend/build')
 CORS(app, resources={r"/api/*": {"origins": "*"}})

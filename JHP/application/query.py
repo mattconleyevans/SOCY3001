@@ -7,6 +7,8 @@ from openai import OpenAI
 import base64
 from PIL import Image
 from io import BytesIO
+from dotenv import load_dotenv
+import os
 
 def get_query_text_embedding(text):
     response = openai.embeddings.create(input=text, model="text-embedding-3-small")
@@ -27,7 +29,9 @@ def retrieve_relevant_documents(query_embedding, index, top_k=5):
     return indices[0]
 
 def queryOpenAI(query_text, image_index, text_index, text_documents, image_documents):
-    client = OpenAI()
+    load_dotenv()
+    openai_api_key = os.getenv('OPENAI_API_KEY')
+    client = OpenAI(api_key=openai_api_key)
     query_text_embedding = get_query_text_embedding(query_text)
     query_clip_embedding = get_query_image_embedding(query_text)
 
