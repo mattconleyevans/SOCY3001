@@ -40,10 +40,19 @@ def queryOpenAI(query_text, image_index, text_index, text_documents, image_docum
     image_indices = retrieve_relevant_documents(query_clip_embedding, image_index, top_k = 3)
 
     # Assuming you have text_documents and image_documents in lists or arrays
-    relevant_texts = [text_documents[i] for i in text_indices]
-    relevant_images = [image_documents[i] for i in image_indices]
-    top_image = base64.b64decode(relevant_images[0])
-    image = Image.open(BytesIO(top_image))
+    def read(filename, indices):
+        indices = [i - 1 for i in indices]
+        indices_set = set(indices)
+        with open(filename, 'r') as file:
+            for i, line in enumerate(file):
+                if i in indices_set:
+                    yield line.strip()
+
+    # Usage
+    images = os.path.join(os.path.dirname(__file__), 'data/images.txt')
+    texts = os.path.join(os.path.dirname(__file__), 'data/texts.txt')
+    relevant_texts = list(read(texts, text_indices))
+    relevant_images = list(read(images, image_indices))
 
     openai_response = client.chat.completions.create(
             model = "gpt-4o-mini",
