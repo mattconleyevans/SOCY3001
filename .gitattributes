@@ -1,0 +1,4 @@
+JHP/application/data/imageArchive.index filter=lfs diff=lfs merge=lfs -text
+JHP/application/data/images.txt filter=lfs diff=lfs merge=lfs -text
+JHP/application/data/textArchive.index filter=lfs diff=lfs merge=lfs -text
+JHP/application/data/texts.txt filter=lfs diff=lfs merge=lfs -text
