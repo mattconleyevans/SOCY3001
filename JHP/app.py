@@ -7,9 +7,6 @@ import faiss
 app = Flask(__name__, static_folder='frontend/build')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-# Assuming faiss supports memory mapping or similar functionality
-text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
-image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
 
 # def read_lines(file_path):
 #     with open(file_path, 'r') as file:
@@ -24,6 +21,8 @@ image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'applicat
 # Route to handle the API call from the React app
 @app.route('/api/query', methods=['POST'])
 def query():
+    text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
+    image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
     data = request.json  # Read JSON data from the request
     query_text = data.get('query_text')
 
