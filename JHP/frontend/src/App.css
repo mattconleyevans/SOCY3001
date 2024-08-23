@@ -55,21 +55,22 @@ button.btn:hover {
   border-color: #c3e6cb;
 }
 
-/* Image Gallery Styles */
 .image-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 1rem; /* Space between images */
+  margin-top: 2rem;
+  /* Ensure the container has enough width to fit 3 columns */
+  max-width: 100%;
 }
 
+/* Style for each image */
 .image-gallery img {
-  width: 100%;
-  max-width: 240px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%; /* Full width of its grid cell */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure image covers the cell */
+  border-radius: 0.5rem; /* Optional: rounded corners */
+  cursor: pointer; /* Indicate clickable */
 }
 
 .image-gallery img:hover {
@@ -95,4 +96,44 @@ button.btn:hover {
   margin-top: 1rem;
   color: #333;
   font-size: 1rem;
+}
+
+.about-link {
+  position: fixed;
+  top: 45px; /* Move it further down */
+  right: 55px; /* Move it further to the left */
+  color: #6c757d; /* Grey color for the link */
+  font-size: 1.2rem; /* Match the header font size */
+  cursor: pointer;
+  font-family: 'Arial', sans-serif; /* Match the header font */
+}
+
+.about-modal {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: #ffffff;
+  padding: 3rem; /* Increase padding for a larger pop-up */
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Larger shadow for more emphasis */
+  border-radius: 0.5rem;
+  width: 50vw; /* Cover about a third of the viewport width */
+  height: 70vh; /* Cover about half of the viewport height */
+  max-width: 800px; /* Limit maximum width */
+  z-index: 1050; /* Ensure it's above other elements */
+}
+
+.about-modal p {
+  margin: 0;
+  font-size: 1.2rem; /* Larger text for readability */
+}
+
+.about-modal .close-btn {
+  position: absolute;
+  top: 15px; /* Positioning for larger button */
+  right: 15px;
+  font-size: 2rem; /* Larger close button */
+  cursor: pointer;
+  color: #6c757d;
 }

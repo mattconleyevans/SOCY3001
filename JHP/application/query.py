@@ -38,7 +38,7 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
 
     # Retrieve relevant indices
     text_indices = retrieve_relevant_documents(query_embedding, text_index, top_k = 10)
-    image_indices = retrieve_relevant_documents(query_embedding, image_index, top_k = 3)
+    image_indices = retrieve_relevant_documents(query_embedding, image_index, top_k = 6)
 
     # Retrieve relevant data
     relevant_texts_url = [texts.iloc[i, 1] for i in text_indices]
@@ -95,13 +95,12 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
             "images": [
                 {"url": relevant_images[0], "caption": images.iloc[image_indices[0], 2]},
                 {"url": relevant_images[1], "caption": images.iloc[image_indices[1], 2]},
-                {"url": relevant_images[2], "caption": images.iloc[image_indices[2], 2]}
+                {"url": relevant_images[2], "caption": images.iloc[image_indices[2], 2]},
+                {"url": relevant_images[3], "caption": images.iloc[image_indices[3], 2]},
+                {"url": relevant_images[4], "caption": images.iloc[image_indices[4], 2]},
+                {"url": relevant_images[5], "caption": images.iloc[image_indices[5], 2]}
             ]  # Add images to the response
         }
-
-        print("Response")
-
-        print("Query successful")
         return response
 
 

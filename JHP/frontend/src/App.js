@@ -12,13 +12,14 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedCaption, setSelectedCaption] = useState('');
+  const [showAbout, setShowAbout] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch("https://socy3001.onrender.com/api/query" /*"http://localhost:10000/api/query"*/, {
+      const res = await fetch(/*"https://socy3001.onrender.com/api/query",*/ "http://localhost:10000/api/query", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,9 +29,10 @@ function App() {
 
       if (res.ok) {
         const data = await res.json();
-        console.log('Fetched data:', data); // Debugging line
         setResponse(data["message"]);
-        setImages(data["images"]);  // Ensure this matches your server response
+        setImages(data["images"]);
+        const length = Object.keys(data["images"]).length;
+        console.log(length);
       } else {
         console.error('Failed to fetch:', res.statusText);
       }
@@ -51,6 +53,14 @@ function App() {
     setShowModal(false);
     setSelectedImage('');
     setSelectedCaption('');
+  };
+
+  const handleAboutClick = () => {
+    setShowAbout(true);
+  };
+
+  const handleCloseAbout = () => {
+    setShowAbout(false);
   };
 
   return (
@@ -100,7 +110,6 @@ function App() {
                   src={image.url}
                   alt={`Generated ${index + 1}`}
                   onClick={() => handleImageClick(image.url, image.caption)}
-                  onError={() => console.error(`Error loading image: ${image.url}`)} // Debugging line
                 />
               ))}
             </div>
@@ -114,6 +123,14 @@ function App() {
           {selectedCaption && <p className="text-center">{selectedCaption}</p>}
         </Modal.Body>
       </Modal>
+
+      {showAbout && (
+        <div className="about-modal">
+          <span className="close-btn" onClick={handleCloseAbout}>×</span>
+          <p>To add.</p>
+        </div>
+      )}
+      <span className="about-link" onClick={handleAboutClick}>About</span>
     </Container>
   );
 }
