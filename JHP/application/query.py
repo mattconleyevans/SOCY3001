@@ -92,8 +92,15 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
         )
         response = {
             "message": openai_response,
-            "images": [relevant_images[0], relevant_images[1], relevant_images[2]]  # Add images to the response
+            "images": [
+                {"url": relevant_images[0], "caption": images.iloc[image_indices[0], 2]},
+                {"url": relevant_images[1], "caption": images.iloc[image_indices[1], 2]},
+                {"url": relevant_images[2], "caption": images.iloc[image_indices[2], 2]}
+            ]  # Add images to the response
         }
+
+        print("Response")
+
         print("Query successful")
         return response
 
