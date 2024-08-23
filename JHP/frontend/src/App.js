@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Spinner, Button, Container, Row, Col, Form, Alert, Modal, Carousel } from 'react-bootstrap';
+import { Spinner, Button, Container, Row, Col, Form, Alert, Modal } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -11,6 +11,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const [selectedCaption, setSelectedCaption] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +29,7 @@ function App() {
       if (res.ok) {
         const data = await res.json();
         setResponse(data["message"]);
-        setImages(data["images"]);
+        setImages(data["images"]);  // Expecting images array to include captions
       } else {
         console.error('Failed to fetch:', res.statusText);
       }
@@ -39,14 +40,16 @@ function App() {
     }
   };
 
-  const handleImageClick = (imageUrl) => {
+  const handleImageClick = (imageUrl, caption) => {
     setSelectedImage(imageUrl);
+    setSelectedCaption(caption);
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedImage('');
+    setSelectedCaption('');
   };
 
   return (
@@ -90,20 +93,14 @@ function App() {
           )}
           {images.length > 0 && (
             <div className="image-gallery mt-4">
-              <Carousel>
-                {images.map((imageUrl, index) => (
-                  <Carousel.Item key={index} onClick={() => handleImageClick(imageUrl)}>
-                    <img
-                      src={imageUrl}
-                      alt={`Generated ${index + 1}`}
-                      className="d-block w-100 rounded shadow-sm"
-                    />
-                    <Carousel.Caption>
-                      <h5>Image {index + 1}</h5>
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+              {images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image.url}
+                  alt={`Generated ${index + 1}`}
+                  onClick={() => handleImageClick(image.url, image.caption)}
+                />
+              ))}
             </div>
           )}
         </Col>
@@ -114,7 +111,8 @@ function App() {
           <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={selectedImage} alt="Selected" className="img-fluid rounded" />
+          <img src={selectedImage} alt="Selected" className="img-fluid rounded mb-3" />
+          {selectedCaption && <p className="text-center">{selectedCaption}</p>}
         </Modal.Body>
       </Modal>
     </Container>
