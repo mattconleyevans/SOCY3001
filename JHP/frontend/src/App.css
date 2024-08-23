@@ -1,87 +1,186 @@
-.App {
-  text-align: center;
-}
+/*.App {*/
+/*  text-align: center;*/
+/*}*/
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/*.App-logo {*/
+/*  height: 40vmin;*/
+/*  pointer-events: none;*/
+/*}*/
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/*@media (prefers-reduced-motion: no-preference) {*/
+/*  .App-logo {*/
+/*    animation: App-logo-spin infinite 20s linear;*/
+/*  }*/
+/*}*/
 
-.App-header {
-  background-color: #f8f9fa; /* Light background for modern look */
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(12px + 2vmin); /* Increased font size for better readability */
-  color: #343a40; /* Darker text color for contrast */
-}
+/*.App-header {*/
+/*  background-color: #f8f9fa; !* Light background for modern look *!*/
+/*  min-height: 100vh;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  font-size: calc(12px + 2vmin); !* Increased font size for better readability *!*/
+/*  color: #343a40; !* Darker text color for contrast *!*/
+/*}*/
 
-.App-link {
-  color: #007bff; /* Bootstrap primary color */
-}
+/*.App-link {*/
+/*  color: #007bff; !* Bootstrap primary color *!*/
+/*}*/
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/*@keyframes App-logo-spin {*/
+/*  from {*/
+/*    transform: rotate(0deg);*/
+/*  }*/
+/*  to {*/
+/*    transform: rotate(360deg);*/
+/*  }*/
+/*}*/
+
+/*.container {*/
+/*  max-width: 800px;*/
+/*}*/
+
+/*textarea.form-control {*/
+/*  border-radius: 0.5rem;*/
+/*  padding: 1rem;*/
+/*  font-size: 1.1rem;*/
+/*  border: 1px solid #ced4da; !* Bootstrap border color *!*/
+/*  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075); !* Add subtle shadow for depth *!*/
+/*}*/
+
+/*button.btn {*/
+/*  width: 100%;*/
+/*  padding: 0.75rem;*/
+/*  font-size: 1.2rem;*/
+/*  border-radius: 0.5rem; !* Rounded corners *!*/
+/*  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); !* Subtle shadow for button *!*/
+/*}*/
+
+/*.alert {*/
+/*  border-radius: 0.5rem;*/
+/*  padding: 1.5rem;*/
+/*  font-size: 1.1rem;*/
+/*  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); !* Add shadow for depth *!*/
+/*}*/
+
+/*.image-gallery {*/
+/*  display: flex;*/
+/*  flex-wrap: nowrap; !* Prevent wrapping to a new line *!*/
+/*  overflow-x: auto; !* Add horizontal scrolling if needed *!*/
+/*  gap: 1.5rem; !* Space between images *!*/
+/*  padding: 1rem; !* Add padding to container *!*/
+/*  align-items: center; !* Center items vertically *!*/
+/*}*/
+
+/*.image-gallery img {*/
+/*  flex: 1 0 30%; !* Set images to take up about 30% of container width *!*/
+/*  max-width: 100%; !* Ensure image does not exceed container width *!*/
+/*  height: auto; !* Maintain aspect ratio *!*/
+/*  border-radius: 0.5rem; !* Rounded corners *!*/
+/*  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); !* Add shadow for depth *!*/
+/*  transition: transform 0.3s ease; !* Smooth hover effect *!*/
+/*}*/
+
+/*.image-gallery img:hover {*/
+/*  transform: scale(1.05); !* Slight zoom effect on hover *!*/
+/*}*/
+
+/* General App Styles */
+body {
+  background-color: #f0f2f5;
+  font-family: 'Arial', sans-serif;
 }
 
 .container {
-  max-width: 800px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+form {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 textarea.form-control {
-  border-radius: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
   padding: 1rem;
-  font-size: 1.1rem;
-  border: 1px solid #ced4da; /* Bootstrap border color */
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075); /* Add subtle shadow for depth */
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+textarea.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
 }
 
 button.btn {
-  width: 100%;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
   padding: 0.75rem;
   font-size: 1.2rem;
-  border-radius: 0.5rem; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for button */
+  transition: background-color 0.3s;
 }
 
+button.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Alert Styles */
 .alert {
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  border-radius: 8px;
+  padding: 1.25rem;
+  font-size: 1rem;
+  color: #333;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
 }
 
+/* Image Gallery Styles */
 .image-gallery {
   display: flex;
-  flex-wrap: nowrap; /* Prevent wrapping to a new line */
-  overflow-x: auto; /* Add horizontal scrolling if needed */
-  gap: 1.5rem; /* Space between images */
-  padding: 1rem; /* Add padding to container */
-  align-items: center; /* Center items vertically */
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .image-gallery img {
-  flex: 1 0 30%; /* Set images to take up about 30% of container width */
-  max-width: 100%; /* Ensure image does not exceed container width */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 0.5rem; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-  transition: transform 0.3s ease; /* Smooth hover effect */
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .image-gallery img:hover {
-  transform: scale(1.05); /* Slight zoom effect on hover */
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Styles */
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+.modal-body img {
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.modal-body p {
+  margin-top: 1rem;
+  color: #333;
+  font-size: 1rem;
 }

@@ -107,9 +107,6 @@ function App() {
       </Row>
 
       <Modal show={showModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Image Preview</Modal.Title>
-        </Modal.Header>
         <Modal.Body>
           <img src={selectedImage} alt="Selected" className="img-fluid rounded mb-3" />
           {selectedCaption && <p className="text-center">{selectedCaption}</p>}
