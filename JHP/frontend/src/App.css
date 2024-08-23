@@ -64,23 +64,30 @@ button.btn {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }
 
+/* Card layout for images with hover effect */
 .image-gallery {
   display: flex;
-  flex-wrap: nowrap; /* Prevent wrapping to a new line */
-  overflow-x: auto; /* Add horizontal scrolling if needed */
-  gap: 1.5rem; /* Space between images */
-  padding: 1rem; /* Add padding to container */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.image-gallery .carousel-item {
+  flex: 0 0 auto;
+  cursor: pointer;
 }
 
 .image-gallery img {
-  flex: 0 0 auto; /* Prevent images from shrinking or growing */
-  max-width: 240px; /* Set a fixed width */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 0.5rem; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-  transition: transform 0.3s ease; /* Smooth hover effect */
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .image-gallery img:hover {
-  transform: scale(1.05); /* Slight zoom effect on hover */
+  transform: scale(1.05);
+}
+
+.modal-content {
+  background: #f8f9fa;
 }

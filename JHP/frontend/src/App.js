@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Spinner, Button, Container, Row, Col, Form, Alert } from 'react-bootstrap';
+import { Spinner, Button, Container, Row, Col, Form, Alert, Modal, Carousel } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -9,6 +9,8 @@ function App() {
   const [response, setResponse] = useState('');
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +37,16 @@ function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedImage('');
   };
 
   return (
@@ -78,18 +90,33 @@ function App() {
           )}
           {images.length > 0 && (
             <div className="image-gallery mt-4">
-              {images.map((imageUrl, index) => (
-                <img
-                  key={index}
-                  src={imageUrl}
-                  alt={`Generated ${index + 1}`}
-                  className="img-fluid rounded shadow-sm"
-                />
-              ))}
+              <Carousel>
+                {images.map((imageUrl, index) => (
+                  <Carousel.Item key={index} onClick={() => handleImageClick(imageUrl)}>
+                    <img
+                      src={imageUrl}
+                      alt={`Generated ${index + 1}`}
+                      className="d-block w-100 rounded shadow-sm"
+                    />
+                    <Carousel.Caption>
+                      <h5>Image {index + 1}</h5>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                ))}
+              </Carousel>
             </div>
           )}
         </Col>
       </Row>
+
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Image Preview</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={selectedImage} alt="Selected" className="img-fluid rounded" />
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }
