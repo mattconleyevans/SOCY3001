@@ -10,8 +10,8 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
 image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
-images = pd.read_csv('application/data/images.csv')
-texts = pd.read_csv('application/data/texts.csv')
+images = pd.read_csv(os.path.join(os.path.dirname(__file__),'application/data/images.csv'))
+texts = pd.read_csv(os.path.join(os.path.dirname(__file__),'application/data/texts.csv'))
 
 # Route to handle the API call from the React app
 @app.route('/api/query', methods=['POST'])
