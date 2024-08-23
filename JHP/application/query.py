@@ -37,7 +37,7 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
     query_embedding = get_query_embedding(query_text)
 
     # Retrieve relevant indices
-    text_indices = retrieve_relevant_documents(query_embedding, text_index)
+    text_indices = retrieve_relevant_documents(query_embedding, text_index, top_k = 10)
     image_indices = retrieve_relevant_documents(query_embedding, image_index, top_k = 3)
 
     # Retrieve relevant data
@@ -67,14 +67,19 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
             "role": "user",
             "content": [
                 {"type": "text", "text": query_text},
-                {"type": "image_url", "image_url": {"url": relevant_images[0]}},
-                {"type": "image_url", "image_url": {"url": relevant_images[1]}},
-                {"type": "image_url", "image_url": {"url": relevant_images[2]}},
+                # {"type": "image_url", "image_url": {"url": relevant_images[0]}},
+                # {"type": "image_url", "image_url": {"url": relevant_images[1]}},
+                # {"type": "image_url", "image_url": {"url": relevant_images[2]}},
                 {"type": "text", "text": relevant_texts[0]},
                 {"type": "text", "text": relevant_texts[1]},
                 {"type": "text", "text": relevant_texts[2]},
                 {"type": "text", "text": relevant_texts[3]},
-                {"type": "text", "text": relevant_texts[4]}
+                {"type": "text", "text": relevant_texts[4]},
+                {"type": "text", "text": relevant_texts[5]},
+                {"type": "text", "text": relevant_texts[6]},
+                {"type": "text", "text": relevant_texts[7]},
+                {"type": "text", "text": relevant_texts[8]},
+                {"type": "text", "text": relevant_texts[9]},
             ]
         }
     ]
