@@ -28,8 +28,9 @@ function App() {
 
       if (res.ok) {
         const data = await res.json();
+        console.log('Fetched data:', data); // Debugging line
         setResponse(data["message"]);
-        setImages(data["images"]);  // Expecting images array to include captions
+        setImages(data["images"]);  // Ensure this matches your server response
       } else {
         console.error('Failed to fetch:', res.statusText);
       }
@@ -99,6 +100,7 @@ function App() {
                   src={image.url}
                   alt={`Generated ${index + 1}`}
                   onClick={() => handleImageClick(image.url, image.caption)}
+                  onError={() => console.error(`Error loading image: ${image.url}`)} // Debugging line
                 />
               ))}
             </div>
