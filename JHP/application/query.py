@@ -49,7 +49,7 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
         try:
             response = requests.get(url)
             response.raise_for_status()  # Check if the request was successful
-            relevant_texts.extend(response.text)
+            relevant_texts.append(response.text)
         except requests.RequestException as e:
             print(f"Error downloading {url}: {e}")
             return None
