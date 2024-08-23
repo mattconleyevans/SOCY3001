@@ -1,32 +1,17 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from traits.trait_types import false
 from application.query import queryOpenAI
 import os
 import faiss
-import logging
-import clip
-import torch
-from application.clip_model import get_clip_model
-
-print(clip.available_models())
-
-model, preprocess = get_clip_model()
+import pandas as pd
 
 app = Flask(__name__, static_folder='frontend/build')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
-# logging.basicConfig(level=logging.DEBUG)
-# logger = logging.getLogger(__name__)
-#
 
 text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
 image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
-
-with open(os.path.join(os.path.dirname(__file__), 'application/data/texts.txt'), 'r') as text_file:
-    text_documents = [line.strip() for line in text_file]
-
-with open(os.path.join(os.path.dirname(__file__), 'application/data/images.txt'), 'r') as image_file:
-    image_documents = [line.strip() for line in image_file]
+images = pd.read_csv('application/data/images.csv')
+texts = pd.read_csv('application/data/texts.csv')
 
 # Route to handle the API call from the React app
 @app.route('/api/query', methods=['POST'])
@@ -37,7 +22,7 @@ def query():
 
     try:
         # Run the queryOpenAI function
-        response = queryOpenAI(query_text, image_index, text_index, image_documents, text_documents)
+        response = queryOpenAI(query_text, image_index, text_index, images, texts)
         # Check if the response contains errors
         if "message" not in response or "images" not in response:
             raise ValueError("Response is missing expected keys.")
@@ -64,6 +49,6 @@ def serve(path):
 
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
-    app.run(port = 5001, debug = True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
+    # app.run(port = 5001, debug = True)
 

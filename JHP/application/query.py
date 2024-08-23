@@ -1,32 +1,22 @@
 import openai
-import clip
-import faiss
-import torch
 import numpy as np
 from openai import OpenAI
-from flask import Flask, request, jsonify, send_from_directory
-import base64
-from PIL import Image
+import dotenv
 from io import BytesIO
-from dotenv import load_dotenv
-import os
-import logging
-from clip_model import get_clip_model
+import requests
 
-# logging.basicConfig(level=logging.DEBUG)
-# logger = logging.getLogger(__name__)
-
-def get_query_text_embedding(text):
+def get_query_embedding(text):
     response = openai.embeddings.create(input=text, model="text-embedding-3-small")
     return response.data[0].embedding
 
-def get_query_image_embedding(text):
-    model, preprocess = get_clip_model()
-    device = "cpu"
-    text_preprocessed = clip.tokenize([text]).to(device)
-    with torch.no_grad():
-        text_features = model.encode_text(text_preprocessed)
-    return text_features.cpu().numpy().tolist()[0]
+# def get_query_image_embedding(text, model):
+#     # device = "cuda" if torch.cuda.is_available() else "cpu"
+#     # model, preprocess = clip.load("ViT-B/16", device=device)
+#     # text_preprocessed = clip.tokenize([text]).to(device)
+#     # with torch.no_grad():
+#     #     text_features = model.encode_text(text_preprocessed)
+#     # return text_features.cpu().numpy().tolist()[0]
+#     return False
 
 # Function to retrieve most relevant documents from a FAISS index
 def retrieve_relevant_documents(query_embedding, index, top_k=5):
@@ -44,30 +34,25 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
     client = OpenAI()
 
     # Retrieve embeddings
-    query_text_embedding = get_query_text_embedding(query_text)
-    query_clip_embedding = get_query_image_embedding(query_text)
+    query_embedding = get_query_embedding(query_text)
 
     # Retrieve relevant indices
-    text_indices = retrieve_relevant_documents(query_text_embedding, text_index)
-    image_indices = retrieve_relevant_documents(query_clip_embedding, image_index, top_k=3)
-
-
-    # # Function to read specific lines from a file
-    # def read_lines(filename, indices):
-    #     indices_set = set(indices)
-    #     with open(filename, 'r') as file:
-    #         for i, line in enumerate(file):
-    #             if i in indices_set:
-    #                 yield line.strip()
-    #
-    # # File paths
-    # images_file = os.path.join(os.path.dirname(__file__), 'data/images.txt')
-    # texts_file = os.path.join(os.path.dirname(__file__), 'data/texts.txt')
+    text_indices = retrieve_relevant_documents(query_embedding, text_index)
+    image_indices = retrieve_relevant_documents(query_embedding, image_index, top_k = 3)
 
     # Retrieve relevant data
-    relevant_texts = [texts[i] for i in text_indices]
-    relevant_images = [images[i] for i in image_indices]
-    print("Relevant images successful")
+    relevant_texts_url = [texts.iloc[i, 1] for i in text_indices]
+    relevant_images = [images.iloc[i, 1] for i in image_indices]
+    relevant_texts = []
+
+    for url in relevant_texts_url:
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Check if the request was successful
+            relevant_texts.extend(response.text)
+        except requests.RequestException as e:
+            print(f"Error downloading {url}: {e}")
+            return None
 
     # Prepare messages for OpenAI API
     messages = [
@@ -82,9 +67,9 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
             "role": "user",
             "content": [
                 {"type": "text", "text": query_text},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{relevant_images[0]}"}},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{relevant_images[1]}"}},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{relevant_images[2]}"}},
+                {"type": "image_url", "image_url": {"url": relevant_images[0]}},
+                {"type": "image_url", "image_url": {"url": relevant_images[1]}},
+                {"type": "image_url", "image_url": {"url": relevant_images[2]}},
                 {"type": "text", "text": relevant_texts[0]},
                 {"type": "text", "text": relevant_texts[1]},
                 {"type": "text", "text": relevant_texts[2]},
@@ -109,6 +94,6 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
 
 
     except Exception as e:
-        logger.error(f"Error in queryOpenAI: {e}")
+        print("Error")
 
     # Construct response

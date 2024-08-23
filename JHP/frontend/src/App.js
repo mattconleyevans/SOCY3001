@@ -15,7 +15,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5001/api/query", {
+      const res = await fetch("https://socy3001.onrender.com/api/query", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,11 +64,9 @@ function App() {
         </div>
       )}
       {images.length > 0 && (
-        <div className="row mt-4">
-          {images.map((image, index) => (
-            <div key={index} className="col-md-4 mb-4">
-              <img src={`data:image/jpeg;base64,${image}`} alt={`Generated ${index + 1}`} className="img-fluid" />
-            </div>
+        <div className="image-container mt-4">
+          {images.map((imageUrl, index) => (
+            <img key={index} src={imageUrl} alt={`Generated ${index + 1}`} className="img-fluid" />
           ))}
         </div>
       )}
