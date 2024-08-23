@@ -4,19 +4,25 @@ import faiss
 import torch
 import numpy as np
 from openai import OpenAI
+from flask import Flask, request, jsonify, send_from_directory
 import base64
 from PIL import Image
 from io import BytesIO
 from dotenv import load_dotenv
 import os
+import logging
+from clip_model import get_clip_model
+
+# logging.basicConfig(level=logging.DEBUG)
+# logger = logging.getLogger(__name__)
 
 def get_query_text_embedding(text):
     response = openai.embeddings.create(input=text, model="text-embedding-3-small")
     return response.data[0].embedding
 
 def get_query_image_embedding(text):
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    model, _ = clip.load("ViT-B/32", device=device)
+    model, preprocess = get_clip_model()
+    device = "cpu"
     text_preprocessed = clip.tokenize([text]).to(device)
     with torch.no_grad():
         text_features = model.encode_text(text_preprocessed)
@@ -29,11 +35,13 @@ def retrieve_relevant_documents(query_embedding, index, top_k=5):
     return indices[0]
 
 
-def queryOpenAI(query_text, image_index, text_index):
+def queryOpenAI(query_text, image_index, text_index, images, texts):
     # Load environment variables
-    load_dotenv()
-    openai_api_key = os.getenv('OPENAI_API_KEY')
-    client = OpenAI(api_key=openai_api_key)
+    # load_dotenv()
+    # openai_api_key = os.getenv('OPENAI_API_KEY')
+    # client = OpenAI(api_key=openai_api_key)
+
+    client = OpenAI()
 
     # Retrieve embeddings
     query_text_embedding = get_query_text_embedding(query_text)
@@ -43,21 +51,23 @@ def queryOpenAI(query_text, image_index, text_index):
     text_indices = retrieve_relevant_documents(query_text_embedding, text_index)
     image_indices = retrieve_relevant_documents(query_clip_embedding, image_index, top_k=3)
 
-    # Function to read specific lines from a file
-    def read_lines(filename, indices):
-        indices_set = set(indices)
-        with open(filename, 'r') as file:
-            for i, line in enumerate(file):
-                if i in indices_set:
-                    yield line.strip()
 
-    # File paths
-    images_file = os.path.join(os.path.dirname(__file__), 'data/images.txt')
-    texts_file = os.path.join(os.path.dirname(__file__), 'data/texts.txt')
+    # # Function to read specific lines from a file
+    # def read_lines(filename, indices):
+    #     indices_set = set(indices)
+    #     with open(filename, 'r') as file:
+    #         for i, line in enumerate(file):
+    #             if i in indices_set:
+    #                 yield line.strip()
+    #
+    # # File paths
+    # images_file = os.path.join(os.path.dirname(__file__), 'data/images.txt')
+    # texts_file = os.path.join(os.path.dirname(__file__), 'data/texts.txt')
 
     # Retrieve relevant data
-    relevant_texts = list(read_lines(texts_file, text_indices))
-    relevant_images = list(read_lines(images_file, image_indices))
+    relevant_texts = [texts[i] for i in text_indices]
+    relevant_images = [images[i] for i in image_indices]
+    print("Relevant images successful")
 
     # Prepare messages for OpenAI API
     messages = [
@@ -85,15 +95,20 @@ def queryOpenAI(query_text, image_index, text_index):
     ]
 
     # Get response from OpenAI
-    openai_response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=messages
-    )
+    try:
+        openai_response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages
+        )
+        response = {
+            "message": openai_response,
+            "images": [relevant_images[0], relevant_images[1], relevant_images[2]]  # Add images to the response
+        }
+        print("Query successful")
+        return response
+
+
+    except Exception as e:
+        logger.error(f"Error in queryOpenAI: {e}")
 
     # Construct response
-    response = {
-        "message": openai_response,
-        "images": [relevant_images[0], relevant_images[1], relevant_images[2]]  # Add images to the response
-    }
-
-    return response
