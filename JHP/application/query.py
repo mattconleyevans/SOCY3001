@@ -9,15 +9,6 @@ def get_query_embedding(text):
     response = openai.embeddings.create(input=text, model="text-embedding-3-small")
     return response.data[0].embedding
 
-# def get_query_image_embedding(text, model):
-#     # device = "cuda" if torch.cuda.is_available() else "cpu"
-#     # model, preprocess = clip.load("ViT-B/16", device=device)
-#     # text_preprocessed = clip.tokenize([text]).to(device)
-#     # with torch.no_grad():
-#     #     text_features = model.encode_text(text_preprocessed)
-#     # return text_features.cpu().numpy().tolist()[0]
-#     return False
-
 # Function to retrieve most relevant documents from a FAISS index
 def retrieve_relevant_documents(query_embedding, index, top_k=5):
     query_embedding = np.array([query_embedding], dtype=np.float32)
@@ -26,10 +17,6 @@ def retrieve_relevant_documents(query_embedding, index, top_k=5):
 
 
 def queryOpenAI(query_text, image_index, text_index, images, texts):
-    # Load environment variables
-    # load_dotenv()
-    # openai_api_key = os.getenv('OPENAI_API_KEY')
-    # client = OpenAI(api_key=openai_api_key)
 
     client = OpenAI()
 
