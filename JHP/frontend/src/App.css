@@ -4,6 +4,10 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
+.content {
+    padding-bottom: 60px; /* Adjust this value to match the height of your footer */
+}
+
 .container {
   background-color: #ffffff;
   border-radius: 10px;
