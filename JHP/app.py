@@ -6,29 +6,39 @@ import faiss
 import pandas as pd
 import json
 from datetime import datetime
+import boto3
 
 app = Flask(__name__, static_folder='frontend/build')
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+# CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 
 text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
 image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
 images = pd.read_csv(os.path.join(os.path.dirname(__file__),'application/data/images.csv'))
 texts = pd.read_csv(os.path.join(os.path.dirname(__file__),'application/data/texts.csv'))
 
-# Function to log queries
+s3 = boto3.client('s3')
+bucket_name = 'jhp-ai-socy3001'
+log_file_key = 'query_logs.txt'
+
 def log_query(query_data):
-    log_file_path = os.path.join(os.path.dirname(__file__), 'query_logs.txt')
+    # Fetch the existing log file from S3 (optional: if you want to append logs)
     try:
-        with open(log_file_path, 'a') as log_file:
-            log_file.write(json.dumps(query_data) + '\n')
-    except Exception as e:
-        app.logger.error(f"Failed to log query: {e}")
+        response = s3.get_object(Bucket=bucket_name, Key=log_file_key)
+        existing_logs = response['Body'].read().decode('utf-8')
+    except s3.exceptions.NoSuchKey:
+        existing_logs = ""
+
+    # Append the new log entry
+    new_log_entry = f"{datetime.utcnow().isoformat()} - {query_data['query_text']} - {query_data['response']}\n"
+    updated_logs = existing_logs + new_log_entry
+
+    # Upload the updated log file back to S3
+    s3.put_object(Bucket=bucket_name, Key=log_file_key, Body=updated_logs)
 
 # Route to handle the API call from the React app
-@app.route('/api/query', methods=['POST', 'OPTIONS'])
+@app.route('/api/query', methods=['POST'])
 def query():
-    if request.method == "OPTIONS":
-        return jsonify({"status": "OK"}), 200  # Handle the preflight request
 
     data = request.json
     query_text = data.get('query_text')
@@ -68,6 +78,6 @@ def serve(path):
         return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
-    app.run(port = 5001, debug = True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
+    # app.run(port = 5001, debug = True)
 

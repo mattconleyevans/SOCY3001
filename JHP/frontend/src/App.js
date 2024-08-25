@@ -26,7 +26,7 @@ function App() {
     };
 
     try {
-      const res = await fetch(/*"https://socy3001.onrender.com/api/query"*/"http://localhost:5001", {
+      const res = await fetch("https://socy3001.onrender.com/api/query", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
