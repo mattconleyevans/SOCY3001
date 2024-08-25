@@ -77,6 +77,6 @@ def serve(path):
         return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
-    # app.run(port = 5001, debug = True)
+    app.run(host='0.0.0.0')
+    # app.run(port = 5001, debug = True), port=int(os.environ.get('PORT', 10000))
 
