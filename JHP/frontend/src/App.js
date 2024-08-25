@@ -26,7 +26,7 @@ function App() {
     };
 
     try {
-      const res = await fetch("https://https://socy3001.onrender.com/api/query", {
+      const res = await fetch("https://socy3001.onrender.com/api/query", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
