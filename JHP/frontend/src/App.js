@@ -13,13 +13,14 @@ function App() {
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedCaption, setSelectedCaption] = useState('');
   const [showAbout, setShowAbout] = useState(false);
+  const [showArchive, setShowArchive] = useState(false); // New state for Document Archive
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch("https://socy3001.onrender.com/api/query", /*"http://localhost:10000/api/query",*/ {
+      const res = await fetch("https://socy3001.onrender.com/api/query", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,8 +32,6 @@ function App() {
         const data = await res.json();
         setResponse(data["message"]);
         setImages(data["images"]);
-        const length = Object.keys(data["images"]).length;
-        console.log(length);
       } else {
         console.error('Failed to fetch:', res.statusText);
       }
@@ -61,6 +60,14 @@ function App() {
 
   const handleCloseAbout = () => {
     setShowAbout(false);
+  };
+
+  const handleArchiveClick = () => {
+    setShowArchive(true);
+  };
+
+  const handleCloseArchive = () => {
+    setShowArchive(false);
   };
 
   return (
@@ -127,10 +134,65 @@ function App() {
       {showAbout && (
         <div className="about-modal">
           <span className="close-btn" onClick={handleCloseAbout}>×</span>
-          <p>To add.</p>
+          <p>About content here...</p>
         </div>
       )}
+
+      {showArchive && (
+        <div className="about-modal">
+          <span className="close-btn" onClick={handleCloseArchive}>×</span>
+          <ul>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/BoxGumGrassyWoodlandNationalRecoveryPlan.pdf" target="_blank"
+                   rel="noopener noreferrer">2011 Box Gum Grassy Woodland National Recovery Plan</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/DAComment.pdf" target="_blank" rel="noopener noreferrer">ACT
+              Conservation Council Comments on 2015 Watson Development Application</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/EnvironmentalOffsets.pdf" target="_blank"
+                   rel="noopener noreferrer">2017 Woodland Quality and Extent Mapping - ACT Government Environmental
+              Offsets</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/NatureConservationAct.pdf" target="_blank"
+                   rel="noopener noreferrer">ACT Nature Conservation Act 2014</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/OperationalManagementPlan.pdf" target="_blank"
+                   rel="noopener noreferrer">Justice Robert Hope Park Operational Management Plan 2018-2021</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/ReserveManagementPlan.pdf" target="_blank"
+                   rel="noopener noreferrer">Canberra Nature Park Reserve Management Plan 2021</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/StateOfEnvironment.pdf" target="_blank"
+                   rel="noopener noreferrer">ACT State of the Environment 2019</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/WatsonWoodlandsWorkingGroup.pdf" target="_blank"
+                   rel="noopener noreferrer">History of JHP and the Watson Woodlands Working Group</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/WoodlandConservationStrategy.pdf" target="_blank"
+                   rel="noopener noreferrer">ACT Native Woodland Conservation Strategy</a></li>
+            <li><a href="https://jhp-ai-socy3001.s3.ap-southeast-2.amazonaws.com/Documents/WoodlandConservationStrategyBoxGumGrassyWoodland.pdf"
+                   target="_blank"
+                   rel="noopener noreferrer">Box Gum Grassy Woodland Action Plan</a></li>
+            <li><a href="https://www.parks.act.gov.au/find-a-park/canberra-nature-park/justice-robert-hope-park"
+                   target="_blank"
+                   rel="noopener noreferrer">Parks ACT - Justice Robert Hope Park</a></li>
+            <li><a
+                href="https://www.environment.act.gov.au/ACT-parks-conservation/environmental-offsets/individual-projects/justice-robert-hope-park-offset-area"
+                target="_blank"
+                rel="noopener noreferrer">Environment ACT - Justice Robert Hope Park Offset Area</a></li>
+            <li><a href="https://greens.org.au/act/news/act-greens-act-protect-act-endangered-woodlands-development-0"
+                   target="_blank"
+                   rel="noopener noreferrer">ACT Greens, 2020 - Protecting Endangered Woodlands From Development</a>
+            </li>
+            <li><a href="https://citynews.com.au/2014/volunteers-feel-duped-land-greed"
+                   target="_blank"
+                   rel="noopener noreferrer">City News, 2014 - Volunteers feel duped by land 'greed'</a></li>
+            <li><a href="https://www.northcanberra.org.au/watson-community-association-celebrates-10th-anniversary-of-justice-robert-hope-park/"
+                   target="_blank"
+                   rel="noopener noreferrer">North Canberra Community Council, 2012 - 10th anniversary of Justice Robert Hope Park</a></li>
+            <li><a href="https://www.canberratimes.com.au/story/6047219/woodlands-defenders-welcome-inadequate-nature-reserve-in-watson/"
+                   target="_blank"
+                   rel="noopener noreferrer">Canberra Times, 2018 - Woodlands defenders welcome 'inadequate' nature reserve in Watson</a></li>
+            <li><a href="https://www.abc.net.au/listen/programs/backgroundbriefing/5312944"
+                   target="_blank"
+                   rel="noopener noreferrer">ABC Background Briefing, 2014 - The trouble with offsets</a></li>
+          </ul>
+        </div>
+      )}
+
       <span className="about-link" onClick={handleAboutClick}>About</span>
+      <span className="about-link" onClick={handleArchiveClick} style={{right: '150px'}}>Document Archive</span>
     </Container>
   );
 }

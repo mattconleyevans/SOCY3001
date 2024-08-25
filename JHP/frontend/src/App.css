@@ -20,7 +20,6 @@ form {
 }
 
 textarea.form-control {
-  height: 7rem;
   border: 1px solid #ced4da;
   border-radius: 8px;
   padding: 1rem;
@@ -46,61 +45,33 @@ button.btn:hover {
   background-color: #0056b3;
 }
 
-/* Finalized Alert Box */
+/* Alert Styles */
 .alert {
-  background-color: #f8f9fa; /* Light grey background to match the site */
-  border-radius: 10px; /* Smooth but subtle rounded corners */
+  border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  color: #333; /* Darker text color for readability */
-  margin-top: 2rem;
-  border: 1px solid #ced4da; /* Black border for a sharper look */
+  font-size: 1.1rem;
+  color: #333;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.alert h5.alert-heading {
-  font-size: 1.4rem; /* Slightly smaller heading text */
-  margin-bottom: 1rem;
-  font-family: 'Arial', sans-serif;
-  font-weight: bold;
-  color: #007bff; /* Blue color to match the primary site color */
-}
-
-.alert p {
-  font-size: 1rem; /* Smaller text size */
-  line-height: 1.5; /* Slightly tighter line spacing */
-  margin-bottom: 1.2rem; /* Space between paragraphs */
-  color: #333; /* Consistent dark text color */
-}
-
-.alert .response-footer {
-  text-align: right;
-  font-size: 0.85rem;
-  color: #6c757d; /* Subtle grey for the footer text */
-}
-
+/* Grid Layout for Images */
 .image-gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  gap: 1rem; /* Space between images */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   margin-top: 2rem;
 }
 
 .image-gallery img {
-  max-width: 100%; /* Ensure images fit within their cell */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove inline spacing */
-  margin-left: auto;
-  margin-right: auto;
-  object-fit: contain; /* Ensure image is fully visible within the container */
-  border-radius: 0.5rem; /* Optional: rounded corners */
-  cursor: pointer; /* Indicate clickable */
-  align-self: center; /* Center image vertically */
-  justify-self: center; /* Center image horizontally */
-}
-
-.image-gallery img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
 }
 
 /* Modal Styles */
@@ -123,42 +94,69 @@ button.btn:hover {
   font-size: 1rem;
 }
 
+/* About and Document Archive Links */
 .about-link {
   position: fixed;
-  top: 45px; /* Move it further down */
-  right: 55px; /* Move it further to the left */
-  color: #6c757d; /* Grey color for the link */
-  font-size: 1.2rem; /* Match the header font size */
+  top: 45px;
+  right: 55px;
+  color: #6c757d;
+  font-size: 1.2rem;
   cursor: pointer;
-  font-family: 'Arial', sans-serif; /* Match the header font */
+  font-family: 'Arial', sans-serif;
 }
 
+/* Document Archive Link Adjustment */
+.document-archive-link {
+  position: fixed;
+  top: 45px;
+  right: 150px;
+  color: #6c757d;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Modal Styles for About and Document Archive */
 .about-modal {
   position: fixed;
   top: 20%;
   left: 50%;
   transform: translate(-50%, -20%);
   background-color: #ffffff;
-  padding: 3rem; /* Increase padding for a larger pop-up */
+  padding: 3rem;
   border: 1px solid #ddd;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Larger shadow for more emphasis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 0.5rem;
-  width: 50vw; /* Cover about a third of the viewport width */
-  height: 70vh; /* Cover about half of the viewport height */
-  max-width: 800px; /* Limit maximum width */
-  z-index: 1050; /* Ensure it's above other elements */
+  width: 33vw;
+  height: 50vh;
+  max-width: 800px;
+  z-index: 1050;
+  overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
-.about-modal p {
-  margin: 0;
-  font-size: 1.2rem; /* Larger text for readability */
+.about-modal ul {
+  list-style-type: none; /* Remove bullets */
+  padding-left: 0; /* Remove padding */
 }
 
-.about-modal .close-btn {
+.about-modal li {
+  margin-bottom: 1rem; /* Space between links */
+}
+
+.about-modal a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.about-modal a:hover {
+  text-decoration: underline;
+}
+
+.close-btn {
   position: absolute;
-  top: 15px; /* Positioning for larger button */
+  top: 15px;
   right: 15px;
-  font-size: 2rem; /* Larger close button */
+  font-size: 1.5rem;
   cursor: pointer;
   color: #6c757d;
 }
