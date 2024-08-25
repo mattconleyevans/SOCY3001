@@ -22,8 +22,10 @@ def log_query(query_data):
         log_file.write(json.dumps(query_data) + '\n')
 
 # Route to handle the API call from the React app
-@app.route('/api/query', methods=['POST'])
+@app.route('/api/query', methods=['POST', 'OPTIONS'])
 def query():
+    if request.method == "OPTIONS":
+        return jsonify({"status": "OK"}), 200  # Handle the preflight request
 
     data = request.json
     query_text = data.get('query_text')
