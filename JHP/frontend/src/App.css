@@ -127,16 +127,16 @@ button.btn:hover {
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 0.5rem;
-  width: 33vw;
-  height: 50vh;
+  width: 75vw;
+  height: 80vh;
   max-width: 800px;
   z-index: 1050;
   overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 .about-modal ul {
-  list-style-type: none; /* Remove bullets */
-  padding-left: 0; /* Remove padding */
+  list-style-type: disc; /* Remove bullets */
+  padding-left: 20px /* Remove padding */
 }
 
 .about-modal li {
@@ -159,4 +159,20 @@ button.btn:hover {
   font-size: 1.5rem;
   cursor: pointer;
   color: #6c757d;
+}
+
+/* Persistent Banner at the Bottom */
+.footer-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+  padding: 0.5rem 0;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1050;
 }
