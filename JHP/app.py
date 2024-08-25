@@ -18,8 +18,11 @@ texts = pd.read_csv(os.path.join(os.path.dirname(__file__),'application/data/tex
 # Function to log queries
 def log_query(query_data):
     log_file_path = os.path.join(os.path.dirname(__file__), 'query_logs.txt')
-    with open(log_file_path, 'a') as log_file:
-        log_file.write(json.dumps(query_data) + '\n')
+    try:
+        with open(log_file_path, 'a') as log_file:
+            log_file.write(json.dumps(query_data) + '\n')
+    except Exception as e:
+        app.logger.error(f"Failed to log query: {e}")
 
 # Route to handle the API call from the React app
 @app.route('/api/query', methods=['POST', 'OPTIONS'])
@@ -65,6 +68,6 @@ def serve(path):
         return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
-    # app.run(port = 5001, debug = True)
+    # app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
+    app.run(port = 5001, debug = True)
 
