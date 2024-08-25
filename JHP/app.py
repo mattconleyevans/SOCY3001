@@ -29,7 +29,7 @@ def log_query(query_data):
         existing_logs = ""
 
     # Append the new log entry
-    new_log_entry = f"{datetime.utcnow().isoformat()} - {query_data['query_text']} - {query_data['response']}\n"
+    new_log_entry = f"{datetime.utcnow().isoformat()} - {query_data['query_text']}\n"
     updated_logs = existing_logs + new_log_entry
 
     # Upload the updated log file back to S3

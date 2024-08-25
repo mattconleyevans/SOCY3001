@@ -1,4 +1,4 @@
-
+/* General Styles */
 body {
   background-color: #f0f2f5;
   font-family: 'Arial', sans-serif;
@@ -36,6 +36,18 @@ textarea.form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
 }
 
+/* Adjusted Alert Styles to Match Query Box */
+.alert {
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-size: 1rem;
+  color: #333;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
 button.btn {
   background-color: #007bff;
   border: none;
@@ -47,17 +59,6 @@ button.btn {
 
 button.btn:hover {
   background-color: #0056b3;
-}
-
-/* Alert Styles */
-.alert {
-  border-radius: 10px;
-  padding: 1.5rem;
-  font-size: 1.1rem;
-  color: #333;
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Grid Layout for Images */
@@ -109,7 +110,6 @@ button.btn:hover {
   font-family: 'Arial', sans-serif;
 }
 
-/* Document Archive Link Adjustment */
 .document-archive-link {
   position: fixed;
   top: 45px;
