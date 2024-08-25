@@ -9,8 +9,7 @@ from datetime import datetime
 import boto3
 
 app = Flask(__name__, static_folder='frontend/build')
-# CORS(app, resources={r"/api/*": {"origins": "*"}})
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 text_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/textArchive.index'))
 image_index = faiss.read_index(os.path.join(os.path.dirname(__file__), 'application/data/imageArchive.index'))
