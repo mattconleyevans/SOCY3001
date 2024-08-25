@@ -13,19 +13,25 @@ function App() {
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedCaption, setSelectedCaption] = useState('');
   const [showAbout, setShowAbout] = useState(false);
-  const [showArchive, setShowArchive] = useState(false); // New state for Document Archive
+  const [showArchive, setShowArchive] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    const queryData = {
+      query_text: query,
+      timestamp: new Date().toISOString(),
+      // You can add more metadata here if needed, such as userID or sessionID
+    };
+
     try {
-      const res = await fetch("https://socy3001.onrender.com/api/query", {
+      const res = await fetch("https://your-backend-url/api/query", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query_text: query }),
+        body: JSON.stringify(queryData),
       });
 
       if (res.ok) {
