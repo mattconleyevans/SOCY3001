@@ -58,7 +58,7 @@ def query():
         log_query(query_data)
 
         return jsonify({
-            "message": response["message"].choices[0].message.content,
+            "message": response["message"],
             "images": response["images"]
         })
 
