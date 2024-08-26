@@ -10,7 +10,7 @@ def get_query_embedding(text):
     return response.data[0].embedding
 
 # Function to retrieve all relevant documents from a FAISS index based on a distance threshold
-def retrieve_relevant_documents(query_embedding, index, distance_threshold=0.7):
+def retrieve_relevant_documents(query_embedding, index, distance_threshold=1.15):
     query_embedding = np.array([query_embedding], dtype=np.float32)
     distances, indices = index.search(query_embedding, index.ntotal)  # Search all documents in the index
     relevant_indices = [indices[0][i] for i in range(len(distances[0])) if distances[0][i] < distance_threshold]
@@ -75,7 +75,7 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
             messages=messages
         )
         response = {
-            "message": str(len(relevant_texts)) + " " + openai_response.choices[0].message.content,
+            "message": openai_response.choices[0].message.content,
             "images": [
                 {"url": images.iloc[i, 1], "caption": images.iloc[i, 2]}
                 for i in image_indices
