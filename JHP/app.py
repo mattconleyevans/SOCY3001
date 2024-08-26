@@ -53,7 +53,6 @@ def query():
         query_data = {
             "query_text": query_text,
             "timestamp": datetime.utcnow().isoformat(),
-            "response": response["message"].choices[0].message.content
         }
         log_query(query_data)
 
