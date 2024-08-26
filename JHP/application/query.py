@@ -75,7 +75,7 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
             messages=messages
         )
         response = {
-            "message": str(len(relevant_texts)) + " " + openai_response["message"].choices[0].message.content,
+            "message": str(len(relevant_texts)) + " " + openai_response.choices[0].message.content,
             "images": [
                 {"url": images.iloc[i, 1], "caption": images.iloc[i, 2]}
                 for i in image_indices
