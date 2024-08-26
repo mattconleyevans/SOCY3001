@@ -29,7 +29,7 @@ def queryOpenAI(query_text, image_index, text_index, images, texts):
     query_embedding = get_query_embedding(query_text)
 
     # Retrieve relevant indices for texts and images
-    text_indices = retrieve_relevant_images(query_embedding, text_index, top_k = 10)
+    text_indices = retrieve_relevant_documents(query_embedding, text_index)
     image_indices = retrieve_relevant_images(query_embedding, image_index)
 
     # Retrieve relevant texts
