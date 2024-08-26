@@ -10,10 +10,20 @@ def get_query_embedding(text):
     return response.data[0].embedding
 
 # Function to retrieve all relevant documents from a FAISS index based on a distance threshold
-def retrieve_relevant_documents(query_embedding, index, distance_threshold=1.15):
+def retrieve_relevant_documents(query_embedding, index, distance_threshold=1.15, max_results=30):
     query_embedding = np.array([query_embedding], dtype=np.float32)
     distances, indices = index.search(query_embedding, index.ntotal)  # Search all documents in the index
-    relevant_indices = [indices[0][i] for i in range(len(distances[0])) if distances[0][i] < distance_threshold]
+
+    # Filter based on the distance threshold and pair distances with their indices
+    relevant_pairs = [(distances[0][i], indices[0][i]) for i in range(len(distances[0])) if
+                      distances[0][i] < distance_threshold]
+
+    # Sort the pairs by distance (ascending order)
+    relevant_pairs.sort(key=lambda x: x[0])
+
+    # Extract the indices of the top max_results items with the lowest distance
+    relevant_indices = [pair[1] for pair in relevant_pairs[:max_results]]
+
     return relevant_indices
 
 def retrieve_relevant_images(query_embedding, image_index, top_k=6):
