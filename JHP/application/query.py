@@ -10,7 +10,7 @@ def get_query_embedding(text):
     return response.data[0].embedding
 
 # Function to retrieve all relevant documents from a FAISS index based on a distance threshold
-def retrieve_relevant_documents(query_embedding, index, distance_threshold=1.15, max_results=30):
+def retrieve_relevant_documents(query_embedding, index, distance_threshold=1.15, max_results=60):
     query_embedding = np.array([query_embedding], dtype=np.float32)
     distances, indices = index.search(query_embedding, index.ntotal)  # Search all documents in the index
 
