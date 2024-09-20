@@ -1,19 +1,82 @@
 /* General Styles */
+html, body {
+  height: 100%; /* Make sure the page takes up the entire viewport */
+  margin: 0;
+}
+
 body {
-  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: 'Arial', sans-serif;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Background Image Layer */
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2; /* Ensure it stays behind everything */
+  background-image: url('background.jpg'); /* Background image from public folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Blurred Overlay Layer */
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8); /* White with opacity for fading */
+  backdrop-filter: blur(5px); /* Blur effect for the overlay */
+  z-index: -1; /* Ensure it's behind the content but above the image */
+}
+
+/* Page Content */
 .content {
-    padding-bottom: 60px; /* Adjust this value to match the height of your footer */
+  flex: 1; /* This makes the content fill the available space */
+  padding-bottom: 60px; /* Space for the footer */
+  z-index: 1; /* Ensure content is on top of the background layers */
 }
 
 .container {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.8); /* Optional container background */
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Footer */
+.footer-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+  padding: 0.5rem 0;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1; /* Footer remains above background layers */
+}
+
+/* Other Styles */
 
 /* Form Styles */
 form {
@@ -36,7 +99,6 @@ textarea.form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
 }
 
-/* Adjusted Alert Styles to Match Query Box */
 .alert {
   border-radius: 8px;
   padding: 1.5rem;
@@ -47,7 +109,6 @@ textarea.form-control:focus {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Button Styles */
 button.btn {
   background-color: #007bff;
   border: none;
@@ -61,7 +122,6 @@ button.btn:hover {
   background-color: #0056b3;
 }
 
-/* Grid Layout for Images */
 .image-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -79,7 +139,6 @@ button.btn:hover {
   justify-self: center;
 }
 
-/* Modal Styles */
 .modal-content {
   border-radius: 8px;
 }
@@ -99,7 +158,6 @@ button.btn:hover {
   font-size: 1rem;
 }
 
-/* About and Document Archive Links */
 .about-link {
   position: fixed;
   top: 45px;
@@ -120,7 +178,6 @@ button.btn:hover {
   font-family: 'Arial', sans-serif;
 }
 
-/* Modal Styles for About and Document Archive */
 .about-modal {
   position: fixed;
   top: 20%;
@@ -131,29 +188,11 @@ button.btn:hover {
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 0.5rem;
-  width: 75vw;
-  height: 80vh;
-  max-width: 800px;
+  width: auto; /* Allow the width to fit the content */
+  max-width: 90vw; /* Prevent the modal from getting too wide */
+  max-height: 80vh; /* Prevent the modal from overflowing the viewport */
+  overflow-y: auto; /* Allow scrolling if content is too tall */
   z-index: 1050;
-  overflow-y: auto; /* Allow scrolling if content overflows */
-}
-
-.about-modal ul {
-  list-style-type: disc; /* Remove bullets */
-  padding-left: 20px /* Remove padding */
-}
-
-.about-modal li {
-  margin-bottom: 1rem; /* Space between links */
-}
-
-.about-modal a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.about-modal a:hover {
-  text-decoration: underline;
 }
 
 .close-btn {
@@ -163,20 +202,4 @@ button.btn:hover {
   font-size: 1.5rem;
   cursor: pointer;
   color: #6c757d;
-}
-
-/* Persistent Banner at the Bottom */
-.footer-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f8f9fa;
-  color: #6c757d;
-  font-size: 0.8rem;
-  font-style: italic;
-  text-align: center;
-  padding: 0.5rem 0;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1050;
 }
